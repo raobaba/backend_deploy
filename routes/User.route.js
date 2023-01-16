@@ -6,13 +6,13 @@ const bcrypt = require("bcrypt");
 const userRouter = express.Router();
 
 userRouter.post("/register", async (req, res) => {
-    const { name, email, pass, age } = req.body
+    const { name, email, gender, password } = req.body
     try {
-        bcrypt.hash(pass, 5, async (err, hash) => {
+        bcrypt.hash(password, 5, async (err, hash) => {
             if (err) {
                 console.log(err)
             } else {
-                const user = new UserModel({ name, email, pass: hash, age })
+                const user = new UserModel({ name, email,gender, password: hash })
                 await user.save()
                 res.send("Registered")
             }
@@ -24,11 +24,11 @@ userRouter.post("/register", async (req, res) => {
 })
 
 userRouter.post("/login", async (req, res) => {
-    const { email, pass } = req.body
+    const { email, password } = req.body
     try {
         const user = await UserModel.find({ email })
         if (user.length > 0) {
-            bcrypt.compare(pass, user[0].pass, (err, result) => {
+            bcrypt.compare(password, user[0].password, (err, result) => {
                 if (result) {
                     const token = jwt.sign({ userID:user[0]._id }, process.env.key);
                     res.send({ "msg": "Login Successfull", "token": token })

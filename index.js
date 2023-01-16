@@ -3,7 +3,7 @@ require('dotenv').config();
 const cors = require("cors")
 const { connection } = require("./config/db");
 const { userRouter } = require("./routes/User.route.js");
-const { noteRouter } = require("./routes/Note.route.js");
+const { postRouter } = require("./routes/Post.route.js");
 const { authenticate } = require("./middlewares/authenticate.middleware.js");
 const app = express()
 app.use(cors({
@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 })
 app.use("/users", userRouter);
 app.use(authenticate);
-app.use("/notes", noteRouter);
+app.use("/posts", postRouter);
 
 app.listen(process.env.port, async () => {
     try {
@@ -28,4 +28,3 @@ app.listen(process.env.port, async () => {
     console.log(`http://localhost:${process.env.port}`)
 })
 
-//63c363a04aa13d5c50846535
