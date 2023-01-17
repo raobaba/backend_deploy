@@ -16,7 +16,6 @@ app.get("/", (req, res) => {
 app.use("/users", userRouter);
 app.use(authenticate);
 app.use("/posts", postRouter);
-
 app.listen(process.env.port, async () => {
     try {
         await connection
